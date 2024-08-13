@@ -3,7 +3,9 @@ name: CI/CD Pipeline
 on:
   push:
     branches:
-      - 'feature*' # Trigger on pushes to branches starting with 'feature'
+      - 'feature/*' # Trigger on pushes to branches starting with 'feature'
+      - 'main'
+      - 'development'
   create:
     tags:
       - '**' # Trigger on any tag creation
@@ -11,7 +13,6 @@ on:
 jobs:
   test:
     runs-on: self-hosted
-    if: ${{ startsWith(github.ref, 'refs/heads/feature') || startsWith(github.ref, 'refs/tags/') }}
 
     steps:
       - uses: actions/checkout@v3
@@ -32,17 +33,10 @@ jobs:
 
       - name: Run tests
         run: ./gradlew test
-
-      - name: Allow Merge to Main
-        if: ${{ github.event_name == 'push' && startsWith(github.ref, 'refs/heads/feature') && success() }}
-        run: |
-          echo "Tests passed, merge to main branch is allowed."
-        # This step is for informational purposes; actual merge rules should be handled in branch protection settings
-
   deploy:
     needs: test
     if: ${{ github.event_name == 'create' && startsWith(github.ref, 'refs/tags/') && success() }}
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     steps:
       - uses: actions/checkout@v3
