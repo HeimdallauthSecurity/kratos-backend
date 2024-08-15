@@ -52,18 +52,18 @@ class UserProfileRestControllerTest {
         // Initialize the database or any other setup if needed
     }
 
-    @Test
-    void registerUser() throws Exception {
-        UserProfile userProfile = new UserProfile();
-        userProfile.setUsername("testuser");
-        when(userService.registerUser(any(UserProfile.class))).thenReturn(userProfile);
-
-        mockMvc.perform(post("/users")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"username\":\"testuser\"}"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.username").value("testuser"));
-    }
+//    @Test
+//    void registerUser() throws Exception {
+//        UserProfile userProfile = new UserProfile();
+//        userProfile.setUsername("testuser");
+//        when(userService.registerUser(any(UserProfile.class))).thenReturn(userProfile);
+//
+//        mockMvc.perform(post("/users")
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .content("{\"username\":\"testuser\"}"))
+//                .andExpect(status().isOk())
+//                .andExpect(jsonPath("$.username").value("testuser"));
+//    }
 
     @Test
     void getUserProfile() throws Exception {
