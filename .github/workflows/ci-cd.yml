@@ -9,7 +9,8 @@ on:
   create:
     tags:
       - '**' # Trigger on any tag creation
-
+permissions:
+  packages: write
 jobs:
   test:
     runs-on: self-hosted
