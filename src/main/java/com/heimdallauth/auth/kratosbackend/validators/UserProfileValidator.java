@@ -10,13 +10,13 @@ public class UserProfileValidator {
         }
 
         if (userProfile.getEmail() == null || userProfile.getEmail().isEmpty() ||
-        userProfile.getEmail().matches(EMAIL_REGEX)) {
+        !userProfile.getEmail().matches(EMAIL_REGEX)) {
             throw new IllegalArgumentException("Invalid email address");
         }
 
-        if (userProfile.getRole() == null || userProfile.getRole().isEmpty()) {
-            throw new IllegalArgumentException("Role cannot be null or empty");
-        }
+//        if (userProfile.getRole() == null || userProfile.getRole().isEmpty()) {
+//            throw new IllegalArgumentException("Role cannot be null or empty");
+//        }
 
         if (userProfile.getFirstName() == null || userProfile.getFirstName().isEmpty()) {
             throw new IllegalArgumentException("First name cannot be null or empty");
