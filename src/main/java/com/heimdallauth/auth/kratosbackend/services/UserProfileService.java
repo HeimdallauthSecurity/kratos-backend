@@ -2,9 +2,12 @@ package com.heimdallauth.auth.kratosbackend.services;
 
 import com.heimdallauth.auth.kratosbackend.dm.UserProfileDataManager;
 import com.heimdallauth.auth.kratosbackend.documents.UserProfile;
+import com.heimdallauth.auth.kratosbackend.dto.CreateUserProfileDTO;
+import com.heimdallauth.auth.kratosbackend.validators.UserProfileValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.List;
 @Service
 public class UserProfileService {
@@ -15,8 +18,17 @@ public class UserProfileService {
         this.userProfileDataManager = userProfileDataManager;
     }
 
-    public UserProfile registerUser(UserProfile userProfile) {
-        return userProfileDataManager.registerUser(userProfile);
+    public UserProfile registerUser(CreateUserProfileDTO createUserProfilePayload) {
+        UserProfile userProfile = UserProfile.builder()
+                .creationTimestamp(Instant.now())
+                .updateTimestamp(Instant.now())
+                .firstName(createUserProfilePayload.getFirstName())
+                .lastName(createUserProfilePayload.getLastName())
+                .username(createUserProfilePayload.getUsername())
+                .email(createUserProfilePayload.getEmail())
+                .build();
+        UserProfile validatedUserProfile = UserProfileValidator.cleanUserProfile(userProfile);
+        return userProfileDataManager.registerUser(validatedUserProfile);
     }
 
     public UserProfile getUserProfile(String username) {

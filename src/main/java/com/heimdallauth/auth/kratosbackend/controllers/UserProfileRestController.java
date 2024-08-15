@@ -2,6 +2,7 @@ package com.heimdallauth.auth.kratosbackend.controllers;
 
 import com.heimdallauth.auth.kratosbackend.dm.UserProfileDataManager;
 import com.heimdallauth.auth.kratosbackend.documents.UserProfile;
+import com.heimdallauth.auth.kratosbackend.dto.CreateUserProfileDTO;
 import com.heimdallauth.auth.kratosbackend.services.UserProfileService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -24,8 +25,8 @@ public class UserProfileRestController {
 
     @PostMapping
     @Operation(summary = "Register a new user")
-    public UserProfile registerUser(@RequestBody UserProfile userProfile) {
-        return userService.registerUser(userProfile);
+    public UserProfile registerUser(@RequestBody CreateUserProfileDTO userProfilePayload) {
+        return userService.registerUser(userProfilePayload);
     }
 
     @GetMapping("/{username}")
