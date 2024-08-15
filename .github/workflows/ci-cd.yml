@@ -11,6 +11,8 @@ on:
       - '**' # Trigger on any tag creation
 permissions:
   packages: write
+  contents: write
+  actions: read
 jobs:
   test:
     runs-on: self-hosted
