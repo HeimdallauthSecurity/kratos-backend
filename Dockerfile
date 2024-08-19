@@ -1,6 +1,9 @@
 # Use an official OpenJDK runtime as a parent image
 FROM openjdk:17-jdk-slim
-
+ENV SPRING_PROFILES_ACTIVE=container
+ENV MONOGDB_URI;
+ENV MONGODB_USERNAME;
+ENV MONGODB_PASSWORD;
 # Set the working directory in the container
 WORKDIR /app
 
@@ -24,4 +27,4 @@ RUN ./gradlew build -x test
 EXPOSE 8080
 
 # Run the application
-CMD ["java", "-jar", "build/libs/kratos-backend-0.0.1-SNAPSHOT.jar"]
+ENTRYPOINT ["java", "-jar", "build/libs/kratos-backend-0.0.1-SNAPSHOT.jar"]
