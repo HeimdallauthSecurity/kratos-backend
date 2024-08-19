@@ -1,9 +1,9 @@
 # Use an official OpenJDK runtime as a parent image
 FROM openjdk:17-jdk-slim
 ENV SPRING_PROFILES_ACTIVE=container
-ENV MONOGDB_URI;
-ENV MONGODB_USERNAME;
-ENV MONGODB_PASSWORD;
+ENV MONOGDB_URI mongodb://localhost:27017/kratos
+ENV MONGODB_USERNAME MONGO
+ENV MONGODB_PASSWORD MONGO
 # Set the working directory in the container
 WORKDIR /app
 
