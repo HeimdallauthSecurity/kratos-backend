@@ -27,4 +27,4 @@ RUN ./gradlew build -x test
 EXPOSE 8080
 
 # Run the application
-ENTRYPOINT ["java", "-jar", "build/libs/kratos-backend-0.0.1-SNAPSHOT.jar"]
+ENTRYPOINT ["java", "-jar", "build/libs/kratos-backend-1.0.1.jar"]
