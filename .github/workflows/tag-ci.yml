@@ -1,0 +1,56 @@
+name: Tag and Deploy
+
+on:
+  push:
+    branches:
+      - 'main'
+
+permissions:
+  packages: write
+  contents: write
+  actions: read
+
+jobs:
+  determine-tag:
+    runs-on: ubuntu-latest
+    outputs:
+      tag: ${{ steps.tag.outputs.tag }}
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Git
+        run: |
+          git config --global user.name 'github-actions'
+          git config --global user.email 'github-actions@github.com'
+
+      - name: Determine next tag
+        id: tag
+        run: |
+          current_date=$(date +'%Y.%m')
+          last_tag=$(git tag -l "${current_date}.*" | sort -V | tail -n 1)
+          if [ -z "$last_tag" ]; then
+            next_tag="${current_date}.1"
+          else
+            release_number=$(echo $last_tag | awk -F. '{print $3}')
+            next_release_number=$((release_number + 1))
+            next_tag="${current_date}.${next_release_number}"
+          fi
+          echo "::set-output name=tag::$next_tag"
+
+  create-tag:
+    needs: determine-tag
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Git
+        run: |
+          git config --global user.name 'github-actions'
+          git config --global user.email 'github-actions@github.com'
+
+      - name: Create and push tag
+        run: |
+          git tag ${{ needs.determine-tag.outputs.tag }}
+          git push origin ${{ needs.determine-tag.outputs.tag }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
