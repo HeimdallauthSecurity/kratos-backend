@@ -4,6 +4,10 @@ on:
   push:
     tags:
       - '**'
+  workflow_run:
+    workflows: ["Tag and Deploy"]
+    types:
+      - completed
 
 permissions:
   security-events: write
