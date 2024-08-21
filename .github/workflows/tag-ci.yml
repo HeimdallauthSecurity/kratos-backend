@@ -26,16 +26,10 @@ jobs:
       - name: Determine next tag
         id: tag
         run: |
-          current_date=$(date +'%Y.%m')
-          last_tag=$(git tag -l "${current_date}.*" | sort -V | tail -n 1)
-          if [ -z "$last_tag" ]; then
-            next_tag="${current_date}.01"
-          else
-            release_number=$(echo $last_tag | awk -F. '{print $3}')
-            next_release_number=$(printf "%02d" $((release_number + 1)))
-            next_tag="${current_date}.${next_release_number}"
-          fi
-          echo "::set-output name=tag::$next_tag"
+          current_month=$(date +'%Y-%m')
+          release_count=$(git tag -l "$current_month.*" | wc -l)
+          release_number=$((release_count + 1))
+          echo "::set-output name=tag::$current_month.$release_number"
 
   create-tag:
     needs: determine-tag
