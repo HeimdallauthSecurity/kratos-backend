@@ -2,7 +2,12 @@ name: Tag and Deploy
 
 on:
   workflow_dispatch:
-
+    inputs:
+      create_release:
+        description: 'Create a new release'
+        required: true
+        default: 'false'
+        type: boolean
 permissions:
   packages: write
   contents: write
@@ -48,3 +53,14 @@ jobs:
           git push origin ${{ needs.determine-tag.outputs.tag }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  create-release:
+    needs: create-tag
+    runs-on: ubuntu-latest
+    if: github.event.inputs.create_release == 'true'
+    steps:
+      - name: Create GitHub Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create ${{ needs.determine-tag.outputs.tag }} --generate-notes
