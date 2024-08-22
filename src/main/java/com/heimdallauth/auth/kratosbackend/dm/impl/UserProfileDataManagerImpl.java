@@ -5,6 +5,8 @@ import com.heimdallauth.auth.kratosbackend.documents.UserProfile;
 import com.heimdallauth.auth.kratosbackend.validators.UserProfileValidator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -14,6 +16,7 @@ import java.util.List;
 
 @Component
 @Slf4j
+@ConditionalOnProperty(name = "heimdallauth.data-manager", havingValue = "mongo")
 public class UserProfileDataManagerImpl implements UserProfileDataManager {
     private static final String USER_COLLECTION = "user_profile_collection";
     private final MongoTemplate mongoTemplate;
