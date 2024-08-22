@@ -27,9 +27,9 @@ jobs:
         id: tag
         run: |
           current_month=$(date +'%Y.%m')
-          release_count=$(git tag -l "$current_month.*" | wc -l)
+          release_count=$(git tag -l "${current_month}.*" | wc -l | tr -d ' ')
           release_number=$((release_count + 1))
-          echo "::set-output name=tag::$current_month.$release_number"
+          echo "::set-output name=tag::${current_month}.${release_number}"
 
   create-tag:
     needs: determine-tag
