@@ -19,8 +19,6 @@ on:
         options:
           - main
           - development
-          - feature/**
-          - release/**
 
 permissions:
   packages: write
