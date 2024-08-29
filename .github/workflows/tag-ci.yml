@@ -8,6 +8,20 @@ on:
         required: true
         default: 'false'
         type: boolean
+      version_number:
+        description: 'Version number (Semantic Versioning)'
+        required: true
+        type: string
+      branch:
+        description: 'Branch to deploy'
+        required: true
+        type: choice
+        options:
+          - main
+          - development
+          - feature/**
+          - release/**
+
 permissions:
   packages: write
   contents: write
@@ -28,19 +42,26 @@ jobs:
           git config --global user.name 'github-actions'
           git config --global user.email 'github-actions@github.com'
 
+      - name: Validate version number
+        id: validate_version
+        run: |
+          if ! [[ "${{ github.event.inputs.version_number }}" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "Invalid version number. Must follow Semantic Versioning (e.g., 1.0.0)."
+            exit 1
+          fi
+
       - name: Determine next tag
         id: tag
         run: |
-          current_month=$(date +'%Y.%m')
-          release_count=$(git tag -l "${current_month}.*" | wc -l | tr -d ' ')
-          release_number=$((release_count + 1))
-          echo "::set-output name=tag::${current_month}.${release_number}"
+          echo "::set-output name=tag::${{ github.event.inputs.version_number }}"
 
   create-tag:
     needs: determine-tag
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.inputs.branch }}
 
       - name: Set up Git
         run: |
@@ -53,3 +74,4 @@ jobs:
           git push origin ${{ needs.determine-tag.outputs.tag }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  ```
