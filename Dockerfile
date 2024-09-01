@@ -1,5 +1,5 @@
 # Use an official OpenJDK runtime as a parent image
-FROM openjdk:17-jdk-slim
+FROM eclipse-temurin:17-jre-focal
 ENV SPRING_PROFILES_ACTIVE=container
 ENV MONOGDB_URI mongodb://localhost:27017/kratos
 ENV MONGODB_USERNAME MONGO
