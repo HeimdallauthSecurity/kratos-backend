@@ -1,6 +1,9 @@
 name: Build and Publish Docker Image
 
 on:
+  push:
+    tags:
+        - '*.*.*'
   workflow_run:
     workflows: ["Tag and Deploy"]
     types:
