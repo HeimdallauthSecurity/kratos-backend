@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - task/create-a-container-and-deployment-template
     tags:
       - v*
 
