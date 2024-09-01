@@ -27,6 +27,13 @@ jobs:
 
       - name: Build with Gradle
         run: ./gradlew build -x test
+
+      - name: Upload JAR as artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: kratos-backend
+          path: build/libs/kratos-backend-*.jar
+
       - name: Setup QEMU
         uses: docker/setup-qemu-action@v3
 
@@ -44,6 +51,15 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           images: ${{ secrets.DOCKER_USERNAME }}/kratos-backend
+
+      - name: Download JAR artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: kratos-backend
+          path: .
+
+      - name: Rename JAR file
+        run: mv $(find . -name "kratos-backend-*.jar") kratos-backend.jar
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v6
