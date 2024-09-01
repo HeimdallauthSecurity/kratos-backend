@@ -84,5 +84,5 @@ tasks.named('jar') {
     enabled = false
 }
 tasks.named('bootJar') {
-    archiveFileName = "kratos-backend-${version}.jar"
+    archiveFileName = "kratos-backend.jar"
 }
