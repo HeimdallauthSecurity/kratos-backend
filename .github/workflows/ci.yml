@@ -1,12 +1,11 @@
 name: Build, Test, and Containerize
 
 on:
-  workflow_dispatch:
-    inputs:
-      version_number:
-        description: 'Version number (Semantic Versioning)'
-        required: true
-        type: string
+  push:
+    branches:
+      - main
+    tags:
+      - '*'
 
 permissions:
   packages: write
