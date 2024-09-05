@@ -13,6 +13,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 @Slf4j
@@ -35,12 +36,12 @@ public class UserProfileDataManagerImpl implements UserProfileDataManager {
     }
 
     @Override
-    public UserProfile getUserProfile(String username) {
-        return mongoTemplate.findOne(
+    public Optional<UserProfile> getUserProfile(String username) {
+        return Optional.ofNullable(mongoTemplate.findOne(
                 Query.query(Criteria.where("username").is(username)),
                 UserProfile.class,
                 USER_COLLECTION
-        );
+        ));
     }
 
     @Override
@@ -82,7 +83,7 @@ public class UserProfileDataManagerImpl implements UserProfileDataManager {
 
     @Override
     public void disableUser(String username) {
-        UserProfile userProfile = getUserProfile(username);
+        UserProfile userProfile = getUserProfile(username).orElseThrow(() -> new RuntimeException("User not found"));
         if (userProfile != null) {
             userProfile.setActive(false);
             updateUserProfile(userProfile);

@@ -3,11 +3,12 @@ package com.heimdallauth.auth.kratosbackend.dm;
 import com.heimdallauth.auth.kratosbackend.documents.UserProfile;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UserProfileDataManager {
     UserProfile registerUser(UserProfile userProfile);
 
-    UserProfile getUserProfile(String username);
+    Optional<UserProfile> getUserProfile(String username);
 
     UserProfile getUserProfileByEmail(String email);
 
