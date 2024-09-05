@@ -14,7 +14,7 @@ ENV MONGODB_PASSWORD MONGO
 WORKDIR /app
 
 # Copy the JAR file from the GitHub Action artifact
-COPY --from=builder /workspace/kratos-backend.jar /app/kratos-backend.jar
+COPY --from=builder /workspace/build/libs/kratos-backend.jar /app/kratos-backend.jar
 
 # Expose the port the application runs on
 EXPOSE 8080
