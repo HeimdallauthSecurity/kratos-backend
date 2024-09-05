@@ -1,14 +1,18 @@
 package com.heimdallauth.auth.kratosbackend.services;
 
+import com.heimdallauth.auth.kratosbackend.constants.ExceptionMessages;
 import com.heimdallauth.auth.kratosbackend.dm.UserProfileDataManager;
 import com.heimdallauth.auth.kratosbackend.documents.UserProfile;
 import com.heimdallauth.auth.kratosbackend.dto.CreateUserProfileDTO;
+import com.heimdallauth.auth.kratosbackend.exceptions.ResourceNotFound;
 import com.heimdallauth.auth.kratosbackend.validators.UserProfileValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.UUID;
+
 @Service
 public class UserProfileService {
     private final UserProfileDataManager userProfileDataManager;
@@ -32,7 +36,7 @@ public class UserProfileService {
     }
 
     public UserProfile getUserProfile(String username) {
-        return userProfileDataManager.getUserProfile(username);
+        return userProfileDataManager.getUserProfile(username).orElseThrow(() -> new ResourceNotFound(ExceptionMessages.USER_RESOURCE_NOT_FOUND,"User Profile",username, UUID.randomUUID().toString() ));
     }
 
     public UserProfile getUserProfileByEmail(String email) {
