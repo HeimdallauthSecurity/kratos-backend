@@ -19,5 +19,6 @@ public class CreateUserProfileDTO {
     private String firstName;
     @NotBlank(message = "Last name cannot be null or empty")
     private String lastName;
-
+    @NotBlank
+    private Boolean isActive;
 }
