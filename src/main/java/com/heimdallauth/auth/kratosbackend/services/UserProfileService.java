@@ -29,6 +29,7 @@ public class UserProfileService {
                 .firstName(createUserProfilePayload.getFirstName())
                 .lastName(createUserProfilePayload.getLastName())
                 .username(createUserProfilePayload.getUsername())
+                .active(createUserProfilePayload.getIsActive())
                 .email(createUserProfilePayload.getEmail())
                 .build();
         UserProfile validatedUserProfile = UserProfileValidator.cleanUserProfile(userProfile);
